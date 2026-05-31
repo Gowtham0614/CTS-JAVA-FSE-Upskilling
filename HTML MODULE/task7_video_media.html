@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 7 – Video Invite & Media Events</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Mulish:wght@400;500;600&display=swap');
+    :root {
+      --bg: #0a0a0f;
+      --panel: #12121a;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --text: #f5f5f5;
+      --muted: #71717a;
+      --green: #22c55e;
+      --yellow: #eab308;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Mulish', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3rem 1.5rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.35);
+      color: var(--accent2);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ---- Video Container ---- */
+    .video-wrap {
+      width: 100%;
+      max-width: 720px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(124,58,237,0.2);
+    }
+    .video-inner {
+      position: relative;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      display: block;
+      max-height: 400px;
+    }
+
+    /* ---- Video Status Bar ---- */
+    .video-status {
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      border-top: 1px solid var(--border);
+      min-height: 3.5rem;
+    }
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    .status-dot.ready  { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .status-dot.loading{ background: var(--yellow); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .status-text { font-size: 0.88rem; color: var(--muted); transition: color 0.3s; }
+    .status-text.ready { color: var(--green); font-weight: 600; }
+
+    /* ---- Event Log ---- */
+    .event-log {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .log-header {
+      padding: 0.8rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .log-body {
+      padding: 1rem 1.4rem;
+      font-size: 0.82rem;
+      line-height: 2;
+      max-height: 160px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    .log-entry { color: var(--muted); }
+    .log-entry.highlight { color: var(--accent2); }
+    .log-entry .ts { color: #3f3f46; margin-right: 0.5rem; }
+
+    /* ---- Form / unload demo ---- */
+    .form-card {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 1.5rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+    }
+    .form-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .form-card input[type="text"], .form-card textarea {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      font-family: 'Mulish', sans-serif;
+      font-size: 0.9rem;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+    .form-card textarea { min-height: 80px; resize: vertical; }
+    .form-card p { font-size: 0.8rem; color: var(--muted); }
+    .dirty-badge {
+      display: none;
+      background: rgba(234,179,8,0.15);
+      border: 1px solid rgba(234,179,8,0.3);
+      color: var(--yellow);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: 0.8rem;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <span class="hero-tag">Task 7 · Media Events</span>
+    <h1>City Summer Fest<br>2025 — Official Promo</h1>
+    <p>Watch our event promo video. Media events like <code style="color:var(--accent2)">oncanplay</code>, <code style="color:var(--accent2)">onplay</code>, and <code style="color:var(--accent2)">onpause</code> are captured below.</p>
+  </div>
+
+  <!-- ======= VIDEO ELEMENT ======= -->
+  <div class="video-wrap">
+    <div class="video-inner">
+      <!--
+        oncanplay  → fires when video is ready to play
+        onplay     → fires when playback starts
+        onpause    → fires when playback pauses
+        onended    → fires when video ends
+        onwaiting  → fires when buffering
+      -->
+      <video id="promoVideo" controls
+        oncanplay="videoReady()"
+        onplay="logEvent('▶ Video started playing', true)"
+        onpause="logEvent('⏸ Video paused')"
+        onended="logEvent('⏹ Video ended', true)"
+        onwaiting="logEvent('⏳ Buffering…')"
+        onerror="logEvent('✗ Error loading video')">
+
+        <!-- Primary source -->
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+        <!-- Fallback source -->
+        <source src="https://www.w3schools.com/html/movie.ogg" type="video/ogg" />
+        Your browser does not support the HTML5 video element.
+      </video>
+    </div>
+
+    <!-- Status bar -->
+    <div class="video-status">
+      <div class="status-dot loading" id="statusDot"></div>
+      <span class="status-text" id="statusText">Loading video…</span>
+    </div>
+  </div>
+
+  <!-- ======= EVENT LOG ======= -->
+  <div class="event-log">
+    <div class="log-header">
+      <span>Media Event Log</span>
+      <span id="eventCount" style="color:var(--accent2);">0 events</span>
+    </div>
+    <div class="log-body" id="logBody">
+      <div class="log-entry"><span class="ts">--:--:--</span>Waiting for video events…</div>
+    </div>
+  </div>
+
+  <!-- ======= FORM: onbeforeunload demo ======= -->
+  <div class="form-card">
+    <h3>
+      Register Your Interest
+      <span class="dirty-badge" id="dirtyBadge">Unsaved changes</span>
+    </h3>
+    <input type="text" id="interestName" placeholder="Your name…" oninput="markDirty()" />
+    <textarea placeholder="Tell us why you want to attend…" oninput="markDirty()"></textarea>
+    <p>⚠️ <strong style="color:var(--yellow)">onbeforeunload</strong> is active — if you navigate away with unsaved content, the browser will warn you.</p>
+  </div>
+
+</body>
+
+<script>
+  /* ===== oncanplay handler ===== */
+  function videoReady() {
+    const dot  = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+    dot.classList.remove('loading');
+    dot.classList.add('ready');
+    text.classList.add('ready');
+    text.textContent = '✓ Video is ready to play!';
+    logEvent('✓ oncanplay fired — video ready to play', true);
+  }
+
+  /* ===== Event logger ===== */
+  let count = 0;
+  function logEvent(msg, highlight = false) {
+    const body  = document.getElementById('logBody');
+    const badge = document.getElementById('eventCount');
+    count++;
+
+    const now = new Date();
+    const ts  = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+
+    const entry = document.createElement('div');
+    entry.className = 'log-entry' + (highlight ? ' highlight' : '');
+    entry.innerHTML = `<span class="ts">${ts}</span>${msg}`;
+    body.appendChild(entry);
+    body.scrollTop = body.scrollHeight;
+    badge.textContent = `${count} event${count !== 1 ? 's' : ''}`;
+  }
+
+  /* ===== onbeforeunload: warn if form has data ===== */
+  let formDirty = false;
+
+  function markDirty() {
+    if (!formDirty) {
+      formDirty = true;
+      document.getElementById('dirtyBadge').style.display = 'inline';
+    }
+  }
+
+  window.addEventListener('beforeunload', function(e) {
+    if (formDirty) {
+      const msg = 'You have unsaved changes. Are you sure you want to leave?';
+      e.returnValue = msg;
+      return msg;
+    }
+  });
+</script>
+</html>

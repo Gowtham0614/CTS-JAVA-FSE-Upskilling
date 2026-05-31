@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 2 – Navigation & Linking</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap');
+    :root {
+      --ink: #111827;
+      --cream: #faf7f2;
+      --gold: #c9a84c;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }
+
+    /* ---- Sticky Nav ---- */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ink);
+      display: flex; align-items: center;
+      gap: 0; padding: 0 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    nav .brand {
+      font-family: 'DM Serif Display', serif;
+      color: var(--gold);
+      font-size: 1.2rem;
+      padding: 1rem 2rem 1rem 0;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      margin-right: 1.5rem;
+    }
+    nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 1.2rem 1rem;
+      transition: color 0.2s, border-bottom 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+    nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+    nav a.external {
+      margin-left: auto;
+      background: var(--gold);
+      color: var(--ink);
+      padding: 0.5rem 1.2rem;
+      border-radius: 4px;
+      border-bottom: none;
+      font-weight: 700;
+    }
+    nav a.external:hover { background: #b8973e; color: var(--ink); }
+
+    /* ---- Sections ---- */
+    section {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    section:nth-child(odd) { background: var(--cream); }
+    section:nth-child(even) { background: #fff; }
+
+    .section-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+    section p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 550px;
+    }
+    section .anchor-badge {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: #f3f4f6;
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    /* ---- Back to top ---- */
+    .back-top {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--gold);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .back-top::before { content: "↑ "; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav>
+    <span class="brand">🏛️ City Portal</span>
+    <a href="#home">Home</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+    <a href="help.html" target="_blank" class="external">Help ↗</a>
+  </nav>
+
+  <!-- ===== HOME SECTION ===== -->
+  <section id="home">
+    <span class="anchor-badge">#home</span>
+    <p class="section-tag">Section 01 — Home</p>
+    <h2>Welcome to Our City Portal</h2>
+    <p>
+      Your one-stop destination for local community events, updates,
+      and civic services. Navigate using the links above to explore.
+    </p>
+    <a href="#events" class="back-top" style="margin-top:2rem;">Go to Events ↓</a>
+  </section>
+
+  <!-- ===== EVENTS SECTION ===== -->
+  <section id="events">
+    <span class="anchor-badge">#events</span>
+    <p class="section-tag">Section 02 — Events</p>
+    <h2>Upcoming Community Events</h2>
+    <p>
+      Browse registered events happening around the city —
+      from farmers markets to town halls and cultural festivals.
+      Click any event to learn more and register your spot.
+    </p>
+    <a href="#contact" class="back-top">Go to Contact ↓</a>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section id="contact">
+    <span class="anchor-badge">#contact</span>
+    <p class="section-tag">Section 03 — Contact</p>
+    <h2>Get in Touch</h2>
+    <p>
+      Have questions or feedback? Reach out to the city council
+      office and we'll respond within two business days.
+      You can also visit the <a href="help.html" target="_blank"
+      style="color:var(--gold);font-weight:700;">Help Page ↗</a>
+      for FAQs and resources.
+    </p>
+    <a href="#home" class="back-top" style="margin-top:2rem;">Back to Top</a>
+  </section>
+
+</body>
+</html>

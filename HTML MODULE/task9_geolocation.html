@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 9 – Geolocation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+    :root {
+      --bg: #070b14;
+      --panel: #0d1525;
+      --card: #111d35;
+      --border: #1e3058;
+      --blue: #3b82f6;
+      --blue-glow: rgba(59,130,246,0.25);
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ---- Hero ---- */
+    .hero { text-align: center; max-width: 520px; margin-bottom: 2.5rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(6,182,212,0.1);
+      border: 1px solid rgba(6,182,212,0.25);
+      color: var(--cyan);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, #fff 40%, var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+
+    /* ---- Main card ---- */
+    .main-card {
+      width: 100%; max-width: 600px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(59,130,246,0.1);
+    }
+
+    /* Map area */
+    .map-area {
+      height: 260px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .map-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-placeholder {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .map-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .map-placeholder p { color: var(--muted); font-size: 0.85rem; }
+
+    /* Coordinate display */
+    #coordsDisplay {
+      position: absolute; z-index: 2; inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .coord-pin {
+      font-size: 3rem;
+      animation: bounce 1.2s ease infinite;
+      filter: drop-shadow(0 0 16px var(--blue));
+    }
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-10px); }
+    }
+    .coord-box {
+      background: rgba(13,21,37,0.9);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1.4rem;
+      text-align: center;
+    }
+    .coord-box .coords {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      color: var(--cyan);
+      font-weight: 500;
+    }
+    .coord-box .acc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* Controls section */
+    .controls {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn-locate {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--blue);
+      color: #fff;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+    .btn-locate:hover { background: #2563eb; transform: translateY(-1px); }
+    .btn-locate:disabled { background: #1e3058; color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Options strip */
+    .options-strip {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .opt-badge {
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* Status */
+    #statusMsg {
+      font-size: 0.88rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      display: none;
+    }
+    #statusMsg.loading { display:block; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); color:var(--blue); }
+    #statusMsg.success { display:block; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); color:var(--green); }
+    #statusMsg.error   { display:block; background:rgba(239,68,68,0.1);  border:1px solid rgba(239,68,68,0.2);  color:var(--red); }
+
+    /* Nearby events list */
+    .events-list {
+      margin-top: 1.5rem;
+      width: 100%; max-width: 600px;
+      display: none;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .events-list.show { display: flex; }
+    .events-list h3 {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .event-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .event-item:nth-child(2) { animation-delay: 0.1s; }
+    .event-item:nth-child(3) { animation-delay: 0.2s; }
+    .event-item:nth-child(4) { animation-delay: 0.3s; }
+    .event-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .event-info .event-name { font-weight: 700; font-size: 0.95rem; }
+    .event-info .event-meta { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .event-dist {
+      margin-left: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <span class="hero-badge">📍 Task 9 · Geolocation API</span>
+    <h1>Find Nearby Events</h1>
+    <p>
+      Uses <code style="color:var(--cyan)">navigator.geolocation.getCurrentPosition()</code>
+      with high-accuracy mode, error handling, and a timeout.
+    </p>
+  </div>
+
+  <div class="main-card">
+
+    <!-- Map area -->
+    <div class="map-area">
+      <div class="map-grid"></div>
+      <div class="map-placeholder" id="mapPlaceholder">
+        <div class="map-icon">🗺️</div>
+        <p>Your location will appear here</p>
+      </div>
+      <!-- Coords appear after successful geolocation -->
+      <div id="coordsDisplay">
+        <div class="coord-pin">📍</div>
+        <div class="coord-box">
+          <div class="coords" id="coordText">—</div>
+          <div class="acc" id="accText">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+
+      <!-- Geolocation options badges -->
+      <div class="options-strip">
+        <span class="opt-badge">⚡ enableHighAccuracy: true</span>
+        <span class="opt-badge">⏱ timeout: 10s</span>
+        <span class="opt-badge">🕑 maximumAge: 0</span>
+      </div>
+
+      <!-- Main button -->
+      <button class="btn-locate" id="locateBtn" onclick="findNearby()">
+        📍 Find Nearby Events
+      </button>
+
+      <!-- Status message -->
+      <div id="statusMsg"></div>
+
+    </div>
+  </div>
+
+  <!-- Nearby events (shown after locating) -->
+  <div class="events-list" id="eventsList">
+    <h3>Nearby Events</h3>
+    <div class="event-item">
+      <span class="event-icon">🥕</span>
+      <div class="event-info">
+        <p class="event-name">Farmers Market</p>
+        <p class="event-meta">Central Park · Sat, Jun 14</p>
+      </div>
+      <span class="event-dist" id="dist1">—</span>
+    </div>
+    <div class="event-item">
+      <span class="event-icon">🎭</span>
+      <div class="event-info">
+        <p class="event-name">Cultural Festival</p>
+        <p class="event-meta">Town Square · Sun, Jun 15</p>
+      </div>
+      <span class="event-dist" id="dist2">—</span>
+    </div>
+    <div class="event-item">
+      <span class="event-icon">💻</span>
+      <div class="event-info">
+        <p class="event-name">Tech Fair</p>
+        <p class="event-meta">City Convention Center · Fri, Jun 20</p>
+      </div>
+      <span class="event-dist" id="dist3">—</span>
+    </div>
+  </div>
+
+</body>
+
+<script>
+  // ---- Geolocation Options (high accuracy, timeout, maximumAge) ----
+  const GEO_OPTIONS = {
+    enableHighAccuracy: true,   // Use GPS if available
+    timeout: 10000,             // 10 second timeout
+    maximumAge: 0               // Don't use cached position
+  };
+
+  function findNearby() {
+    const btn = document.getElementById('locateBtn');
+    const msg = document.getElementById('statusMsg');
+
+    // Check API support
+    if (!navigator.geolocation) {
+      setStatus('error', '✗ Geolocation is not supported by your browser.');
+      return;
+    }
+
+    // Show loading state
+    btn.disabled = true;
+    btn.textContent = '⏳ Locating…';
+    setStatus('loading', '🔍 Requesting your location with high accuracy…');
+
+    // Get current position
+    navigator.geolocation.getCurrentPosition(
+      onSuccess,
+      onError,
+      GEO_OPTIONS
+    );
+  }
+
+  // ---- Success handler ----
+  function onSuccess(position) {
+    const { latitude, longitude, accuracy } = position.coords;
+
+    // Show coords on map
+    document.getElementById('mapPlaceholder').style.display = 'none';
+    const cd = document.getElementById('coordsDisplay');
+    cd.style.display = 'flex';
+    document.getElementById('coordText').textContent =
+      `${latitude.toFixed(6)}° N,  ${longitude.toFixed(6)}° E`;
+    document.getElementById('accText').textContent =
+      `Accuracy: ±${Math.round(accuracy)} metres`;
+
+    // Update status
+    setStatus('success',
+      `✓ Location found! Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)} (±${Math.round(accuracy)}m)`
+    );
+
+    // Simulate distances to dummy event venues
+    const base = { lat: latitude, lng: longitude };
+    const venues = [
+      { lat: latitude + 0.012, lng: longitude + 0.008 },
+      { lat: latitude - 0.005, lng: longitude + 0.020 },
+      { lat: latitude + 0.030, lng: longitude - 0.015 }
+    ];
+    venues.forEach((v, i) => {
+      const d = haversine(base.lat, base.lng, v.lat, v.lng);
+      document.getElementById(`dist${i + 1}`).textContent =
+        d < 1 ? `${Math.round(d * 1000)} m away` : `${d.toFixed(1)} km away`;
+    });
+
+    // Show events list
+    document.getElementById('eventsList').classList.add('show');
+
+    // Reset button
+    const btn = document.getElementById('locateBtn');
+    btn.disabled = false;
+    btn.innerHTML = '✓ Location Found — Refresh';
+  }
+
+  // ---- Error handler ----
+  function onError(err) {
+    const btn = document.getElementById('locateBtn');
+    btn.disabled = false;
+    btn.innerHTML = '📍 Try Again';
+
+    let errMsg = '';
+    switch (err.code) {
+      case err.PERMISSION_DENIED:
+        errMsg = '✗ Permission denied. Please allow location access in your browser settings.';
+        break;
+      case err.POSITION_UNAVAILABLE:
+        errMsg = '✗ Position unavailable. Your device could not determine your location.';
+        break;
+      case err.TIMEOUT:
+        errMsg = '✗ Request timed out after 10 seconds. Please try again.';
+        break;
+      default:
+        errMsg = `✗ Unknown error (code: ${err.code}): ${err.message}`;
+    }
+    setStatus('error', errMsg);
+  }
+
+  // ---- Status helper ----
+  function setStatus(type, text) {
+    const el = document.getElementById('statusMsg');
+    el.className = type;
+    el.textContent = text;
+  }
+
+  // ---- Haversine formula for distance (km) ----
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+  function toRad(deg) { return deg * Math.PI / 180; }
+</script>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 4 – Event Image Gallery</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap');
+    :root {
+      --bg: #1c1c1e;
+      --panel: #2c2c2e;
+      --accent: #d4a853;
+      --text: #f2f2f7;
+      --muted: #8e8e93;
+      --border: #3a3a3c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 3rem 2rem;
+    }
+    header { text-align: center; margin-bottom: 3rem; }
+    header p { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    header h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; }
+    header span { display: block; color: var(--muted); font-size: 0.95rem; margin-top: 0.5rem; }
+
+    /* ---- Gallery Table ---- */
+    .gallery-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+    }
+    caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      padding: 1.2rem;
+      caption-side: top;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 1.2rem 1rem;
+      vertical-align: top;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    td:last-child { border-right: none; }
+    tr:last-child td { border-bottom: none; }
+
+    /* ---- Event Image Class ---- */
+    .event-img {
+      width: 100%;
+      max-width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto 0.8rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .event-img:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 30px rgba(212,168,83,0.35);
+    }
+
+    /* ---- Event placeholder (colored divs since we have no real images) ---- */
+    .img-placeholder {
+      width: 100%;
+      max-width: 220px;
+      height: 150px;
+      border-radius: 8px;
+      border: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.8rem;
+      font-size: 2.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .img-placeholder:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 30px rgba(212,168,83,0.35);
+    }
+
+    .event-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+    .event-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .event-tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: rgba(212,168,83,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(212,168,83,0.3);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p>Community Memories</p>
+    <h1>Event Photo Gallery</h1>
+    <span>A visual recap of past community events</span>
+  </header>
+
+  <div class="gallery-wrap">
+    <table>
+      <caption>📸 Past Community Events — 2024 Highlights</caption>
+      <thead>
+        <tr>
+          <th>Event 1</th>
+          <th>Event 2</th>
+          <th>Event 3</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- Row 1 -->
+        <tr>
+          <td>
+            <!--
+              Normally: <img src="farmers-market.jpg" class="event-img"
+                alt="Farmers market stalls with fresh produce"
+                title="Annual Farmers Market – April 2024"
+                style="border: 3px solid #d4a853;">
+              Using a styled placeholder below since no image files are available.
+            -->
+            <div class="img-placeholder" title="Annual Farmers Market – April 2024"
+                 style="background: linear-gradient(135deg,#1b4332,#2d6a4f);">🥕</div>
+            <p class="event-name">Farmers Market</p>
+            <p class="event-desc">Fresh produce, artisan goods, and live folk music at Central Park.</p>
+            <span class="event-tag">April 2024</span>
+          </td>
+          <td>
+            <div class="img-placeholder" title="Spring Cultural Festival – May 2024"
+                 style="background: linear-gradient(135deg,#7b2d8b,#c77dff);">🎭</div>
+            <p class="event-name">Cultural Festival</p>
+            <p class="event-desc">Dance performances, food stalls, and multicultural art exhibits.</p>
+            <span class="event-tag">May 2024</span>
+          </td>
+          <td>
+            <div class="img-placeholder" title="City Marathon – June 2024"
+                 style="background: linear-gradient(135deg,#023e8a,#0096c7);">🏃</div>
+            <p class="event-name">City Marathon</p>
+            <p class="event-desc">5K and 10K routes through downtown with thousands of participants.</p>
+            <span class="event-tag">June 2024</span>
+          </td>
+        </tr>
+
+        <!-- Row 2 -->
+        <tr>
+          <td>
+            <div class="img-placeholder" title="Outdoor Cinema Night – July 2024"
+                 style="background: linear-gradient(135deg,#1a1a2e,#16213e);">🎬</div>
+            <p class="event-name">Cinema Night</p>
+            <p class="event-desc">Outdoor screening of classic films under the stars at Riverside.</p>
+            <span class="event-tag">July 2024</span>
+          </td>
+          <td>
+            <div class="img-placeholder" title="Tech Fair – August 2024"
+                 style="background: linear-gradient(135deg,#1c3a1c,#2e7d32);">💻</div>
+            <p class="event-name">Tech Fair</p>
+            <p class="event-desc">Student showcases, robotics demos, and startup pitches.</p>
+            <span class="event-tag">August 2024</span>
+          </td>
+          <td>
+            <div class="img-placeholder" title="Harvest Festival – October 2024"
+                 style="background: linear-gradient(135deg,#7c3400,#e07b39);">🎃</div>
+            <p class="event-name">Harvest Festival</p>
+            <p class="event-desc">Pumpkin carving, hayrides, and seasonal food in the town square.</p>
+            <span class="event-tag">October 2024</span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <p style="text-align:center;margin-top:1.5rem;font-size:0.8rem;color:var(--muted);">
+    Hover over images to see the zoom effect. <code>alt</code> and <code>title</code> attributes are set on every image.
+  </p>
+
+</body>
+</html>
