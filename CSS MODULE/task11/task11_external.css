@@ -1,0 +1,17 @@
+/* ============================================================
+   task11_external.css
+   External stylesheet linked in task11_devtools.html
+   Open the Network tab in DevTools to verify this file
+   loads with status 200.
+   ============================================================ */
+
+/* Adds a subtle bottom border to the nav links in task 11 */
+nav ul li {
+  border-bottom: none;
+}
+
+/* Extra rule to confirm external CSS is loaded */
+.page-wrapper {
+  /* External CSS confirms: border-top highlight */
+  border-top: 3px solid #e67e22;
+}
