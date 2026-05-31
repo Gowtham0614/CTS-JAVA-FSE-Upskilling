@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- viewport meta tag is essential for responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 10 – Responsive Design & Media Queries</title>
+  <style>
+
+    /* =====================================================
+       UNIVERSAL RESET
+    ===================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* =====================================================
+       CSS CUSTOM PROPERTIES (variables for flexible sizing)
+    ===================================================== */
+    :root {
+      --primary:       #1a3c5e;
+      --accent:        #e67e22;
+      --bg:            #eef2f7;
+      --card-bg:       #ffffff;
+      --text:          #333333;
+      --muted:         #666666;
+      --radius:        8px;
+      --gap:           24px;
+    }
+
+    /* =====================================================
+       BODY
+    ===================================================== */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       HEADER / BANNER
+    ===================================================== */
+    #mainHeader {
+      background: linear-gradient(135deg, var(--primary), #2980b9);
+      color: #fff;
+      padding: 50px 5vw;           /* vw units: relative to viewport width */
+      text-align: center;
+    }
+
+    #mainHeader h1 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem);   /* fluid type between 1.6 and 2.8rem */
+      margin-bottom: 10px;
+    }
+
+    #mainHeader p {
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      opacity: 0.88;
+    }
+
+    /* Hero image below header */
+    .hero-image {
+      width: 100%;                  /* 100% of parent */
+      height: 40vh;                 /* 40% of viewport height */
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #2980b9, #1abc9c);
+    }
+
+    /* =====================================================
+       NAVIGATION
+       Desktop: horizontal row  →  Mobile: vertical stack
+    ===================================================== */
+    nav {
+      background-color: #2c3e50;
+      padding: 0 5%;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;               /* horizontal by default */
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    nav ul li a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 14px 16px;
+      font-size: 0.92rem;
+      transition: background 0.2s;
+    }
+
+    nav ul li a:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    /* =====================================================
+       MAIN CONTENT
+       Uses CSS Grid for the responsive card layout
+    ===================================================== */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 5%;            /* % padding for fluid layout */
+    }
+
+    /* =====================================================
+       SECTION HEADINGS
+    ===================================================== */
+    h2 {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--primary);
+      margin-bottom: 20px;
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+
+    /* =====================================================
+       EVENTS GRID – CSS Grid layout (bonus: responsive)
+       Desktop: 3 columns  Tablet: 2  Mobile: 1
+    ===================================================== */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);  /* 3 equal columns */
+      gap: var(--gap);
+      margin-bottom: 36px;
+    }
+
+    /* =====================================================
+       EVENT CARD
+    ===================================================== */
+    .eventCard {
+      background: var(--card-bg);
+      border: 1px solid #d5dde5;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eventCard .card-img {
+      width: 100%;                 /* fills card width at any size */
+      height: 160px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #1abc9c, #3498db);
+    }
+
+    .eventCard .card-body {
+      padding: 18px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .eventCard .meta {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--accent);
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+
+    .eventCard h3 {
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);   /* fluid type */
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .eventCard p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .cta-button {
+      display: inline-block;
+      margin-top: 14px;
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      align-self: flex-start;
+    }
+
+    /* =====================================================
+       STATS BAR – Flexbox row
+    ===================================================== */
+    .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--primary);
+      color: #fff;
+      padding: 24px 5%;
+      border-radius: var(--radius);
+      margin-bottom: 36px;
+    }
+
+    .stat {
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .stat .number {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat .label {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* =====================================================
+       BANNER IMAGE (responsive width demo)
+    ===================================================== */
+    .banner-img {
+      width: 100%;                 /* responsive: 100% of container */
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+      background: linear-gradient(90deg, #e67e22, #f39c12);
+      height: 120px;
+      margin-bottom: 36px;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 20px 5%;
+      font-size: 0.85rem;
+    }
+
+    /* =====================================================
+       RESPONSIVE INDICATOR (for demo purposes)
+    ===================================================== */
+    .breakpoint-label {
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      padding: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+
+    /* ╔═════════════════════════════════════════════════╗
+       ║        MEDIA QUERIES                           ║
+       ║  Progressively adapt layout for smaller sizes ║
+       ╚═════════════════════════════════════════════════╝ */
+
+    /* ===================================================
+       TABLET: screens ≤ 992px
+       Grid collapses from 3 columns to 2
+    =================================================== */
+    @media (max-width: 992px) {
+
+      .events-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columns on tablet */
+      }
+
+      #mainHeader {
+        padding: 40px 5vw;
+      }
+
+    }
+
+    /* ===================================================
+       MOBILE: screens ≤ 768px
+       - Nav links stack vertically
+       - Grid collapses to 1 column
+       - Font sizes reduced
+       - Images constrained
+    =================================================== */
+    @media (max-width: 768px) {
+
+      /* Nav: vertical stack instead of horizontal row */
+      nav ul {
+        flex-direction: column;    /* stack links top-to-bottom */
+        gap: 0;
+      }
+
+      nav ul li a {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 0.9rem;         /* slightly smaller on mobile */
+      }
+
+      /* Grid: single column */
+      .events-grid {
+        grid-template-columns: 1fr;  /* 1 column on mobile */
+      }
+
+      /* Reduce header padding */
+      #mainHeader {
+        padding: 30px 5%;
+      }
+
+      /* Smaller hero height on mobile */
+      .hero-image {
+        height: 28vh;
+      }
+
+      /* Card image smaller on mobile */
+      .eventCard .card-img {
+        height: 120px;
+      }
+
+      /* Reduce stats bar numbers */
+      .stat .number {
+        font-size: 1.8rem;
+      }
+
+      /* Breakpoint indicator */
+      .breakpoint-label::after {
+        content: 'Mobile view (≤ 768px)';
+      }
+    }
+
+    /* ===================================================
+       SMALL MOBILE: screens ≤ 480px
+       Extra adjustments for very small devices
+    =================================================== */
+    @media (max-width: 480px) {
+
+      body {
+        font-size: 14px;           /* slightly smaller base */
+      }
+
+      #mainHeader h1 {
+        font-size: 1.5rem;
+      }
+
+      .stats-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .breakpoint-label::after {
+        content: 'Small Mobile (≤ 480px)';
+      }
+    }
+
+    /* ===================================================
+       DEFAULT breakpoint label for desktop
+    =================================================== */
+    @media (min-width: 993px) {
+      .breakpoint-label::after {
+        content: 'Desktop view (> 992px) — Resize window to see responsive changes';
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+      .breakpoint-label::after {
+        content: 'Tablet view (769px–992px)';
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Breakpoint indicator: shows current layout mode -->
+  <div class="breakpoint-label"></div>
+
+  <!-- Banner -->
+  <header id="mainHeader">
+    <h1>Local Community Event Portal</h1>
+    <p>Responsive Design — resize this window to see the layout adapt</p>
+  </header>
+
+  <!-- Hero placeholder (coloured div represents an image) -->
+  <div class="hero-image"></div>
+
+  <!-- Nav: horizontal on desktop, vertical on mobile ≤768px -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Calendar</a></li>
+      <li><a href="#">Volunteer</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- Stats bar: Flexbox with fluid numbers -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="number">42</span>
+        <span class="label">Events</span>
+      </div>
+      <div class="stat">
+        <span class="number">1,200</span>
+        <span class="label">Members</span>
+      </div>
+      <div class="stat">
+        <span class="number">200+</span>
+        <span class="label">Volunteers</span>
+      </div>
+      <div class="stat">
+        <span class="number">15</span>
+        <span class="label">Groups</span>
+      </div>
+    </div>
+
+    <h2>Upcoming Events</h2>
+
+    <!-- CSS Grid: 3 cols desktop → 2 tablet → 1 mobile -->
+    <div class="events-grid">
+
+      <div class="eventCard">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="meta">14 Jun · Town Square</div>
+          <h3>Summer Farmers Market</h3>
+          <p>Fresh produce, artisan crafts, and live music every Saturday morning.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+      <div class="eventCard">
+        <div class="card-img" style="background: linear-gradient(135deg,#9b59b6,#3498db)"></div>
+        <div class="card-body">
+          <div class="meta">15 Jun · Greenfield Park</div>
+          <h3>Community Yoga Morning</h3>
+          <p>Guided outdoor session for all levels. Bring your mat and water bottle.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+      <div class="eventCard">
+        <div class="card-img" style="background: linear-gradient(135deg,#e67e22,#f1c40f)"></div>
+        <div class="card-body">
+          <div class="meta">16 Jun · Town Hall</div>
+          <h3>Heritage Walking Tour</h3>
+          <p>Explore the borough's rich history on a guided 2-hour walking tour.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+      <div class="eventCard">
+        <div class="card-img" style="background: linear-gradient(135deg,#e74c3c,#e91e63)"></div>
+        <div class="card-body">
+          <div class="meta">19 Jun · Community Hall</div>
+          <h3>Children's Art Exhibition</h3>
+          <p>Celebrating young artists from all primary schools. Free entry.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+      <div class="eventCard">
+        <div class="card-img" style="background: linear-gradient(135deg,#27ae60,#2ecc71)"></div>
+        <div class="card-body">
+          <div class="meta">22 Jun · Park Entrance</div>
+          <h3>Community Clean-Up Drive</h3>
+          <p>Help keep Greenfield green. Equipment provided. All welcome.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+      <div class="eventCard">
+        <div class="card-img" style="background: linear-gradient(135deg,#1abc9c,#16a085)"></div>
+        <div class="card-body">
+          <div class="meta">25 Jun · Library Hall</div>
+          <h3>Coding Workshop for Kids</h3>
+          <p>Introduction to HTML and CSS for ages 8–14. Seats are limited.</p>
+          <a class="cta-button" href="#">Register</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Responsive banner image -->
+    <div class="banner-img"></div>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Greenfield Borough Council &nbsp;|&nbsp; All rights reserved
+  </footer>
+
+</body>
+</html>

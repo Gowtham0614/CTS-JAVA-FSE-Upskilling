@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 4 – Color & Background Styling</title>
+  <style>
+
+    /* =====================================================
+       UNIVERSAL RESET
+    ===================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* =====================================================
+       BODY
+       Background image with HEX fallback color
+       If the image fails to load, the HEX color shows instead
+    ===================================================== */
+    body {
+      /* Fallback color (HEX) shown if the image cannot load */
+      background-color: #d6e4f0;
+
+      /* Background image layered over the fallback */
+      background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&auto=format&fit=crop&q=60');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+
+    /* =====================================================
+       OVERLAY WRAPPER
+       RGBA semi-transparent background over body image
+    ===================================================== */
+    .page-wrapper {
+      /* RGBA color: white at 88% opacity – softens the background */
+      background-color: rgba(255, 255, 255, 0.88);
+      max-width: 860px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* =====================================================
+       MAIN HEADER / BANNER
+       Linear gradient background (left to right)
+    ===================================================== */
+    #mainHeader {
+      /* Gradient: deep navy → city-council blue */
+      background: linear-gradient(135deg, #0d2b45 0%, #1a6ea8 100%);
+      color: #ffffff;
+      padding: 44px 32px;
+      text-align: center;
+    }
+
+    #mainHeader h1 {
+      font-size: 2.3rem;
+      /* HEX color for the heading text */
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    #mainHeader p {
+      /* RGBA: white at 80% opacity */
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 1.05rem;
+    }
+
+    /* =====================================================
+       SECTION HEADINGS WITH GRADIENTS
+       Each section header gets a subtle gradient bar
+    ===================================================== */
+    .section-header {
+      /* Gradient: warm amber → orange */
+      background: linear-gradient(90deg, #e67e22 0%, #f39c12 100%);
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* =====================================================
+       SECTION BODY
+    ===================================================== */
+    .section-body {
+      padding: 24px 28px;
+    }
+
+    /* =====================================================
+       EVENT CARDS
+    ===================================================== */
+    .eventCard {
+      /* HEX border + RGBA background tint */
+      background-color: rgba(26, 110, 168, 0.06);
+      border-left: 4px solid #1a6ea8;   /* HEX border accent */
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+
+    .eventCard h3 {
+      /* HEX for heading text */
+      color: #0d2b45;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .eventCard p {
+      /* RGBA: dark colour at 75% opacity */
+      color: rgba(30, 30, 30, 0.75);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       STATISTICS BAR
+       Gradient: cool blue → teal, shows color theory
+    ===================================================== */
+    .stats-bar {
+      background: linear-gradient(90deg, #1abc9c 0%, #2980b9 50%, #8e44ad 100%);
+      color: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stats-bar .stat span {
+      display: block;
+    }
+
+    .stats-bar .stat .number {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .stats-bar .stat .label {
+      font-size: 0.82rem;
+      /* RGBA: white at 80% */
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background-color: #0d2b45;    /* HEX */
+      color: rgba(255,255,255,0.65);  /* RGBA */
+      text-align: center;
+      padding: 18px;
+      font-size: 0.85rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Banner with linear-gradient background -->
+    <header id="mainHeader">
+      <h1>Local Community Event Portal</h1>
+      <p>Proudly serving the residents of Greenfield Borough</p>
+    </header>
+
+    <!-- Stats bar with multi-stop gradient -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="number">42</span>
+        <span class="label">Events This Month</span>
+      </div>
+      <div class="stat">
+        <span class="number">1,200</span>
+        <span class="label">Registered Members</span>
+      </div>
+      <div class="stat">
+        <span class="number">15</span>
+        <span class="label">Volunteer Groups</span>
+      </div>
+    </div>
+
+    <!-- Section with gradient header bar -->
+    <div>
+      <div class="section-header">Upcoming Events</div>
+      <div class="section-body">
+
+        <div class="eventCard">
+          <h3>Summer Farmers Market</h3>
+          <p>Fresh produce, local crafts, and live music every Saturday morning at Town Square.</p>
+        </div>
+
+        <div class="eventCard">
+          <h3>Community Clean-Up Drive</h3>
+          <p>Volunteers needed! Join us at the park entrance at 8 AM to keep our neighbourhood green.</p>
+        </div>
+
+        <div class="eventCard">
+          <h3>Children's Art Exhibition</h3>
+          <p>Celebrating young artists from all primary schools. Free entry at the Community Hall.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 Greenfield Borough Council. All rights reserved.
+    </footer>
+
+  </div>
+
+</body>
+</html>

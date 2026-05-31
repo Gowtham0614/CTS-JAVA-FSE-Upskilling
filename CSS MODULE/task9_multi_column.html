@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 9 – Multi-Column Layout (Newspaper Style)</title>
+  <style>
+
+    /* =====================================================
+       UNIVERSAL RESET
+    ===================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* =====================================================
+       BODY
+    ===================================================== */
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background-color: #f5f0e8;   /* aged-paper tone */
+      color: #2a2a2a;
+      padding: 30px 20px;
+    }
+
+    /* =====================================================
+       NEWSPAPER WRAPPER
+    ===================================================== */
+    .newspaper {
+      max-width: 940px;
+      margin: 0 auto;
+      background: #fdfaf4;
+      border: 1px solid #c8b89a;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+      padding: 40px 44px;
+    }
+
+    /* =====================================================
+       MASTHEAD (newspaper title bar)
+    ===================================================== */
+    .masthead {
+      text-align: center;
+      border-top: 4px double #1a1a1a;
+      border-bottom: 4px double #1a1a1a;
+      padding: 16px 0;
+      margin-bottom: 6px;
+    }
+
+    .masthead h1 {
+      font-size: 3rem;
+      font-family: 'Georgia', serif;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+
+    .masthead .tagline {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #666;
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    /* Issue info bar */
+    .issue-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #777;
+      padding: 6px 0;
+      border-bottom: 1px solid #c8b89a;
+      margin-bottom: 28px;
+    }
+
+    /* =====================================================
+       ARTICLE HEADING
+    ===================================================== */
+    .article-heading {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .article-subheading {
+      font-size: 1rem;
+      font-style: italic;
+      color: #555;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .article-byline {
+      font-size: 0.8rem;
+      text-align: center;
+      color: #888;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       MULTI-COLUMN LAYOUT — MAIN DEMO
+       column-count, column-gap, column-rule
+    ===================================================== */
+    .bulletin-2col {
+      column-count: 2;              /* split text into 2 columns */
+      column-gap: 30px;             /* space between columns */
+      column-rule: 1px solid gray;  /* thin line between columns */
+      text-align: justify;
+      font-size: 0.94rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .bulletin-3col {
+      column-count: 3;              /* 3 columns for short snippets */
+      column-gap: 24px;
+      column-rule: 1px solid #b0a090;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      margin-bottom: 30px;
+    }
+
+    /* Column span: headline spans all columns */
+    .col-span-all {
+      column-span: all;             /* element breaks out across all columns */
+      text-align: center;
+      border-top: 2px solid #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+      padding: 10px 0;
+      margin-bottom: 16px;
+    }
+
+    .col-span-all h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Drop cap on first letter of lead paragraph */
+    .bulletin-2col > p:first-of-type::first-letter {
+      float: left;
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 0.8;
+      padding-right: 8px;
+      padding-top: 4px;
+      color: #1a3c5e;
+      font-family: 'Georgia', serif;
+    }
+
+    /* =====================================================
+       DIVIDER
+    ===================================================== */
+    .section-divider {
+      border: none;
+      border-top: 2px solid #c8b89a;
+      margin: 28px 0;
+    }
+
+    /* =====================================================
+       SMALL-ADS ROW (single line columns)
+    ===================================================== */
+    .small-ads {
+      column-count: 3;
+      column-gap: 20px;
+      column-rule: 1px dotted #999;
+      font-size: 0.8rem;
+      color: #555;
+      line-height: 1.7;
+      background: #f0ebe0;
+      padding: 16px;
+      border: 1px solid #c8b89a;
+      border-radius: 4px;
+    }
+
+    .small-ads h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    /* =====================================================
+       PULL-QUOTE inside column
+    ===================================================== */
+    .pull-quote {
+      border-top: 2px solid #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+      padding: 12px 8px;
+      margin: 18px 0;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: #1a3c5e;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="newspaper">
+
+    <!-- Masthead -->
+    <div class="masthead">
+      <h1>The Greenfield Bulletin</h1>
+      <p class="tagline">Your community's voice since 1989</p>
+    </div>
+
+    <div class="issue-bar">
+      <span>Vol. XXXVI, No. 24</span>
+      <span>Saturday, 14 June 2025</span>
+      <span>Free – Distributed to all households</span>
+    </div>
+
+    <!-- Article headline -->
+    <h2 class="article-heading">Greenfield's Biggest Summer Festival Returns After Five-Year Hiatus</h2>
+    <p class="article-subheading">Borough residents rallied together to bring back the beloved annual celebration</p>
+    <p class="article-byline">By Margaret Sullivan &nbsp;|&nbsp; Community Affairs Correspondent</p>
+
+    <!-- ===== 2-COLUMN LAYOUT ===== -->
+    <div class="bulletin-2col">
+
+      <p>
+        After five long years, the Greenfield Summer Festival is set to return to the heart of
+        our community. Organisers confirmed last Monday that all permits have been secured and
+        preparations are well under way for what promises to be the largest and most vibrant
+        edition of the event yet.
+      </p>
+
+      <p>
+        The festival, which first launched in 1993, traditionally draws thousands of visitors
+        from across the borough and surrounding areas. Live music, artisan food stalls, a
+        children's funfair, and a spectacular evening fireworks display are among the confirmed
+        attractions. Local businesses have pledged sponsorship, and the council has allocated
+        additional green space along the riverside to accommodate growing crowds.
+      </p>
+
+      <div class="pull-quote">
+        "This festival belongs to every resident of Greenfield. We are bringing it back for all of you."
+        <br/><small>— Councillor Patricia Owens</small>
+      </div>
+
+      <p>
+        Speaking at a town hall meeting, lead organiser David Hargreaves said the planning
+        committee had worked tirelessly to secure funding and volunteer support. "We had over
+        200 volunteers sign up within the first 48 hours," he noted. "That tells you everything
+        about how much this event means to people."
+      </p>
+
+      <p>
+        Tickets for ticketed sessions go on sale this Friday through the community portal website
+        and at the borough library. Most activities, however, will remain free of charge and open
+        to all visitors throughout the weekend. Families are encouraged to arrive early as
+        parking will be limited near the main site.
+      </p>
+
+    </div>
+
+    <hr class="section-divider"/>
+
+    <!-- ===== 3-COLUMN LAYOUT ===== -->
+    <div class="bulletin-3col">
+
+      <div class="col-span-all">
+        <h2>Community Notices &amp; Updates</h2>
+      </div>
+
+      <p>
+        <strong>Library Hours Extended.</strong> The Greenfield Public Library will extend its
+        opening hours to 9 PM on weekdays throughout July. Free Wi-Fi available to all members.
+      </p>
+
+      <p>
+        <strong>Road Works Notice.</strong> Elm Street will be partially closed from 18–22 June
+        for drainage repairs. Residents are advised to use alternate routes via Oak Avenue.
+        Apologies for any inconvenience caused.
+      </p>
+
+      <p>
+        <strong>Park Bench Appeal.</strong> The Friends of Greenfield Park are fundraising for
+        ten new memorial benches along the main promenade. Donations can be made online at the
+        council website. Each bench can be personalised with a small plaque.
+      </p>
+
+      <p>
+        <strong>Yoga in the Park.</strong> Free morning yoga sessions resume every Sunday at
+        7:30 AM. All levels welcome. Bring your own mat. Instructor: Sonia Patel.
+        Contact the community centre to register.
+      </p>
+
+      <p>
+        <strong>Lost Cat.</strong> A grey tabby named "Biscuit" has been missing since
+        11 June near the Chestnut Road area. If found, please contact the Ellison family
+        on 07700 900 123. Reward offered.
+      </p>
+
+      <p>
+        <strong>School Governors Needed.</strong> Greenfield Primary School is seeking
+        two new parent governors. This is a rewarding volunteer role. Experience in education
+        or finance is helpful but not required. Contact the school office for details.
+      </p>
+
+    </div>
+
+    <hr class="section-divider"/>
+
+    <!-- ===== SMALL ADS – 3 columns ===== -->
+    <div class="small-ads">
+      <div>
+        <h4>For Sale</h4>
+        <p>Garden furniture set, lightly used. Table + 4 chairs. £80 ONO. Call 07700 900 456.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <p>Experienced childminder available Mon–Fri. DBS checked. References on request. Call Maria on 07700 900 789.</p>
+      </div>
+      <div>
+        <h4>Classes</h4>
+        <p>Beginner Spanish classes starting July. 6-week course. £45 total. Tuesday evenings at the Community Hall.</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 11 – Debug & DevTools Testing</title>
+  <link rel="stylesheet" href="task11_external.css"/>
+  <!--
+    DEVTOOLS TASK: After opening this page in Chrome/Edge,
+    open DevTools (F12) and use the Network tab to verify that
+    task11_external.css is listed and returns HTTP 200.
+    If the file is missing you will see it flagged in red (404).
+  -->
+  <style>
+
+    /* =====================================================
+       UNIVERSAL RESET
+    ===================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* =====================================================
+       BODY
+    ===================================================== */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #eef2f7;
+      color: #333;
+      padding: 30px 20px;
+    }
+
+    /* =====================================================
+       PAGE WRAPPER
+    ===================================================== */
+    .page-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* =====================================================
+       MAIN HEADER
+    ===================================================== */
+    #mainHeader {
+      background: linear-gradient(135deg, #1a3c5e, #2980b9);
+      color: #fff;
+      padding: 40px 32px;
+      border-radius: 10px;
+      margin-bottom: 32px;
+    }
+
+    #mainHeader h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    #mainHeader p {
+      opacity: 0.85;
+    }
+
+    /* =====================================================
+       SECTION HEADING
+    ===================================================== */
+    h2 {
+      font-size: 1.3rem;
+      color: #1a3c5e;
+      margin: 32px 0 14px;
+      border-left: 4px solid #e67e22;
+      padding-left: 12px;
+    }
+
+    /* =====================================================
+       DEVTOOLS TIP CARDS
+    ===================================================== */
+    .tip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .tip-card {
+      background: #fff;
+      border: 1px solid #d5dde5;
+      border-radius: 8px;
+      padding: 22px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .tip-card .step-num {
+      display: inline-block;
+      background: #1a3c5e;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tip-card h3 {
+      font-size: 1rem;
+      color: #1a3c5e;
+      margin-bottom: 8px;
+    }
+
+    .tip-card p {
+      font-size: 0.89rem;
+      color: #555;
+      line-height: 1.65;
+    }
+
+    .tip-card code {
+      background: #f0f4f8;
+      border: 1px solid #d0dae5;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 0.85rem;
+      color: #c0392b;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* =====================================================
+       BROKEN LAYOUT SECTION
+       This intentionally has a "bug" — inspect with DevTools
+    ===================================================== */
+    .buggy-section {
+      background: #fff;
+      border: 1px solid #d5dde5;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* BUG: This card is too wide — fix it in DevTools */
+    .broken-card {
+      background: #fef9ec;
+      border: 2px dashed #f39c12;
+      padding: 18px 20px;
+      /* INTENTIONAL BUG: width: 1200px forces horizontal scroll */
+      width: 1200px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .broken-card h3 {
+      color: #856404;
+      margin-bottom: 6px;
+    }
+
+    .fix-note {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: #155724;
+      line-height: 1.65;
+    }
+
+    .fix-note code {
+      background: rgba(0,0,0,0.08);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* =====================================================
+       RESPONSIVE TEST PANEL
+    ===================================================== */
+    .responsive-panel {
+      background: #fff;
+      border: 1px solid #d5dde5;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* Grid changes based on screen size – simulate via DevTools */
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .device-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .device-card {
+      border: 1px solid #c8d6e5;
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .device-card .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .device-card h4 {
+      font-size: 0.9rem;
+      color: #1a3c5e;
+      margin-bottom: 4px;
+    }
+
+    .device-card p {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* =====================================================
+       NETWORK TAB DEMO ASSETS
+    ===================================================== */
+    .network-demo {
+      background: #fff;
+      border: 1px solid #d5dde5;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+
+    .resource-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 0.88rem;
+    }
+
+    .resource-row:last-child {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      min-width: 42px;
+      text-align: center;
+    }
+
+    .status-200 { background: #d4edda; color: #155724; }
+    .status-404 { background: #f8d7da; color: #721c24; }
+    .status-301 { background: #fff3cd; color: #856404; }
+
+    .resource-name { color: #2980b9; font-family: monospace; }
+    .resource-type { color: #888; font-size: 0.8rem; }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Banner -->
+    <header id="mainHeader">
+      <h1>Debug &amp; DevTools Guide</h1>
+      <p>Task 11 – Testing and debugging the Community Event Portal with Chrome DevTools</p>
+    </header>
+
+    <!-- ===== DEVTOOLS TIPS ===== -->
+    <h2>How to Use Chrome DevTools</h2>
+    <div class="tip-grid">
+
+      <div class="tip-card">
+        <span class="step-num">1</span>
+        <h3>Open DevTools</h3>
+        <p>
+          Press <code>F12</code> or right-click any element and choose <strong>Inspect</strong>.
+          You can also use <code>Ctrl+Shift+I</code> (Windows) or <code>Cmd+Opt+I</code> (Mac).
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <span class="step-num">2</span>
+        <h3>Inspect an Element</h3>
+        <p>
+          Click the cursor icon (top-left of DevTools) then click any element on the page.
+          The <strong>Elements</strong> panel shows its HTML and the <strong>Styles</strong>
+          pane shows all CSS rules applied to it.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <span class="step-num">3</span>
+        <h3>Live-Edit CSS</h3>
+        <p>
+          In the Styles pane, click any property value and type a new value.
+          Changes are instant. Try changing <code>background-color</code> or
+          <code>font-size</code> on the header to see it update live.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <span class="step-num">4</span>
+        <h3>Box Model Inspector</h3>
+        <p>
+          In the <strong>Computed</strong> tab, scroll to find the box model diagram.
+          It shows the exact pixel values for <code>margin</code>,
+          <code>border</code>, <code>padding</code>, and <code>content</code>.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <span class="step-num">5</span>
+        <h3>Device Toolbar (Responsive)</h3>
+        <p>
+          Click the phone/tablet icon (<code>Ctrl+Shift+M</code>) to open the
+          responsive design toolbar. Select a device preset (e.g. iPhone 14) or
+          drag the edges to any custom width.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <span class="step-num">6</span>
+        <h3>Network Tab</h3>
+        <p>
+          Open the <strong>Network</strong> tab and reload the page (<code>F5</code>).
+          All loaded resources appear here. Check that
+          <code>task11_external.css</code> shows status <strong>200</strong>.
+          A <strong>404</strong> means the file was not found.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- ===== INTENTIONAL BUG ===== -->
+    <h2>Bug Hunt: Fix This Broken Card (DevTools Practice)</h2>
+    <div class="buggy-section">
+      <div class="broken-card">
+        <h3>⚠️ This card is too wide! (Intentional Bug)</h3>
+        <p>
+          This card has <code>width: 1200px</code> applied, which breaks the layout on
+          smaller screens. Open DevTools → Inspect this element → find the
+          <code>width: 1200px</code> rule in the Styles pane → uncheck or change it to
+          <code>width: 100%</code> to fix the layout.
+        </p>
+      </div>
+      <div class="fix-note">
+        <strong>How to fix:</strong> In DevTools, select the <code>.broken-card</code>
+        element. In the Styles panel, find <code>width: 1200px</code> and change it to
+        <code>width: 100%</code>. The card will snap back into the page width immediately.
+        Remember: changes made in DevTools are <em>not saved permanently</em> — apply the
+        fix in your CSS file to make it stick.
+      </div>
+    </div>
+
+    <!-- ===== RESPONSIVE DEVICE SIMULATION ===== -->
+    <h2>Responsive Test: Simulate Different Devices</h2>
+    <div class="responsive-panel">
+      <p style="margin-bottom:18px; font-size:0.9rem; color:#555;">
+        Use the DevTools device toolbar to test the portal at these common breakpoints.
+        This 3-column grid collapses to 1 column at ≤ 768px.
+      </p>
+      <div class="device-grid">
+        <div class="device-card">
+          <div class="icon">🖥️</div>
+          <h4>Desktop</h4>
+          <p>1280px wide<br/>3-column grid</p>
+        </div>
+        <div class="device-card">
+          <div class="icon">📱</div>
+          <h4>Tablet (iPad)</h4>
+          <p>768px wide<br/>Collapsed nav</p>
+        </div>
+        <div class="device-card">
+          <div class="icon">📲</div>
+          <h4>Mobile (iPhone)</h4>
+          <p>390px wide<br/>Single column</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NETWORK TAB SIMULATION ===== -->
+    <h2>Network Tab: Expected Resources</h2>
+    <div class="network-demo">
+      <p style="margin-bottom:16px; font-size:0.88rem; color:#555;">
+        When you reload this page with the Network tab open, you should see these resources.
+        Status 200 = loaded OK. Status 404 = file missing (check the path).
+      </p>
+
+      <div class="resource-row">
+        <span class="status-badge status-200">200</span>
+        <span class="resource-name">task11_devtools.html</span>
+        <span class="resource-type">document</span>
+      </div>
+      <div class="resource-row">
+        <span class="status-badge status-200">200</span>
+        <span class="resource-name">task11_external.css</span>
+        <span class="resource-type">stylesheet</span>
+      </div>
+      <div class="resource-row">
+        <span class="status-badge status-404">404</span>
+        <span class="resource-name">missing-image.png</span>
+        <span class="resource-type">image — not found!</span>
+      </div>
+      <div class="resource-row">
+        <span class="status-badge status-301">301</span>
+        <span class="resource-name">old-styles.css</span>
+        <span class="resource-type">stylesheet — redirected</span>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
