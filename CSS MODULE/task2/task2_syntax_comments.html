@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 2 – CSS Syntax & Comments</title>
+
+  <!--
+    Task 2: CSS Syntax and Comments
+    ================================
+    This file links to task2_styles.css (the external stylesheet).
+    Open task2_styles.css alongside this file to study:
+      - Proper CSS rule structure (selector { property: value; })
+      - Descriptive block comments above every section
+      - Consistent indentation (2 spaces)
+      - Logical grouping of related rules
+  -->
+  <link rel="stylesheet" href="task2_styles.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <!-- Styled by: #mainHeader rules in task2_styles.css  -->
+  <header id="mainHeader">
+    <h1>Local Community Event Portal</h1>
+    <p>Connecting neighbours, one event at a time.</p>
+  </header>
+
+  <!-- ===================== NAV ======================== -->
+  <!-- Styled by: nav, nav ul, nav ul li a rules         -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">Calendar</a></li>
+      <li><a href="#">Volunteer</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===================== MAIN CONTENT ============== -->
+  <main style="max-width: 860px; margin: 0 auto; padding: 20px 24px;">
+
+    <!-- Styled by: h2 rule -->
+    <h2>Upcoming Events</h2>
+
+    <!-- Styled by: .eventCard rules -->
+    <div class="eventCard">
+      <h3>Summer Farmers Market</h3>
+      <p>Fresh local produce, artisan goods, and live music every Saturday at Town Square.</p>
+      <br/>
+      <!-- Styled by: .cta-button rule -->
+      <a href="#" class="cta-button">Register Now</a>
+    </div>
+
+    <div class="eventCard">
+      <h3>Community Clean-Up Drive</h3>
+      <p>Help keep Greenfield beautiful. Meet at the park entrance at 8 AM. Gloves provided.</p>
+      <br/>
+      <a href="#" class="cta-button">Register Now</a>
+    </div>
+
+    <div class="eventCard">
+      <h3>Heritage Walking Tour</h3>
+      <p>Explore the borough's history on a guided 2-hour walk departing from Town Hall.</p>
+      <br/>
+      <a href="#" class="cta-button">Register Now</a>
+    </div>
+
+    <h2>Volunteer Opportunities</h2>
+
+    <div class="eventCard">
+      <h3>Library Reading Programme</h3>
+      <p>Help children build a love of reading every Tuesday afternoon. No experience needed.</p>
+      <br/>
+      <a href="#" class="cta-button">Sign Up</a>
+    </div>
+
+  </main>
+
+  <!-- ===================== FOOTER ==================== -->
+  <!-- Styled by: footer rule in task2_styles.css        -->
+  <footer>
+    &copy; 2025 Greenfield Borough Council. All rights reserved.
+  </footer>
+
+</body>
+</html>
