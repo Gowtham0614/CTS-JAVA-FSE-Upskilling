@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 1 – Setting Up Bootstrap 5</title>
+  <!-- Exercise 1.1: Bootstrap 5 via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <h1 class="display-4 fw-bold text-primary">Exercise 1: Setting Up Bootstrap 5</h1>
+    <hr>
+
+    <!-- Exercise 1.1 -->
+    <section class="mb-5">
+      <h2 class="h4 text-secondary">Exercise 1.1 – CDN Setup</h2>
+      <p class="lead">This page links Bootstrap 5 via CDN in the <code>&lt;head&gt;</code>.</p>
+      <div class="alert alert-success">
+        ✅ Bootstrap CSS loaded via CDN: <code>cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css</code>
+      </div>
+      <div class="alert alert-info">
+        ✅ Bootstrap JS bundle loaded at bottom of <code>&lt;body&gt;</code>: <code>bootstrap.bundle.min.js</code>
+      </div>
+    </section>
+
+    <!-- Exercise 1.2 -->
+    <section class="mb-5">
+      <h2 class="h4 text-secondary">Exercise 1.2 – npm / Downloaded Files (Notes)</h2>
+      <p>To set up via <strong>npm</strong>:</p>
+      <pre class="bg-dark text-white p-3 rounded"><code>npm init -y
+npm install bootstrap@5.3.3</code></pre>
+      <p class="mt-3">Then reference in your HTML:</p>
+      <pre class="bg-dark text-white p-3 rounded"><code>&lt;link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"&gt;
+&lt;script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;</code></pre>
+      <div class="alert alert-warning mt-3">
+        📁 Alternatively, download Bootstrap from <strong>getbootstrap.com</strong> and reference the local files in the same way above.
+      </div>
+    </section>
+
+    <p class="text-muted">Bootstrap version: 5.3.3</p>
+  </div>
+
+  <!-- Exercise 1.1 & 2.2: Bootstrap JS Bundle via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
