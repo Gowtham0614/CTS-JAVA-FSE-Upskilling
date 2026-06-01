@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exercise 19 – Bootstrap 5 + Sass Customization</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <!-- Bootstrap 5 CDN (base) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       SIMULATED SASS OUTPUT
+       In a real project: compiled from scss/_variables.scss
+       via: npx sass scss/custom.scss css/custom.css
+       ============================================================ */
+
+    /* --- CSS Variables (mirrors $primary, $border-radius etc.) --- */
+    :root {
+      --custom-primary:      #e63946;
+      --custom-secondary:    #457b9d;
+      --custom-success:      #2a9d8f;
+      --custom-dark:         #1d3557;
+      --custom-light-bg:     #f1faee;
+      --custom-radius:       0.75rem;
+      --custom-radius-lg:    1.25rem;
+      --custom-radius-pill:  50rem;
+      --font-display:        'Syne', sans-serif;
+      --font-body:           'DM Sans', sans-serif;
+      --font-mono:           'JetBrains Mono', monospace;
+    }
+
+    /* --- Override Bootstrap's CSS custom properties --- */
+    :root {
+      --bs-primary:          var(--custom-primary);
+      --bs-primary-rgb:      230, 57, 70;
+      --bs-border-radius:    var(--custom-radius);
+      --bs-border-radius-lg: var(--custom-radius-lg);
+      --bs-border-radius-pill: var(--custom-radius-pill);
+    }
+
+    /* --- Global reset overrides --- */
+    *, body { font-family: var(--font-body); }
+
+    body {
+      background: #f8f6f2;
+      color: #1d3557;
+    }
+
+    /* ============================================================
+       LAYOUT COMPONENTS
+       ============================================================ */
+
+    /* --- Page Header --- */
+    .page-header {
+      background: var(--custom-dark);
+      color: #fff;
+      padding: 3.5rem 0 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: var(--custom-primary);
+      opacity: .12;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 10%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--custom-secondary);
+      opacity: .1;
+    }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .page-header p {
+      opacity: .7;
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+    .exercise-pill {
+      display: inline-block;
+      background: var(--custom-primary);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: .28rem .8rem;
+      border-radius: var(--custom-radius-pill);
+      margin-bottom: 1rem;
+    }
+
+    /* --- Section titles --- */
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.55rem;
+      color: var(--custom-dark);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .section-title span {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      background: var(--custom-primary);
+      color: #fff;
+      padding: .2rem .6rem;
+      border-radius: .3rem;
+      font-weight: 700;
+    }
+
+    /* --- Exercise cards --- */
+    .ex-card {
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: var(--custom-radius-lg);
+      padding: 2rem;
+      box-shadow: 0 2px 16px rgba(29,53,87,.07);
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .ex-card:hover {
+      border-color: var(--custom-primary);
+      box-shadow: 0 8px 32px rgba(230,57,70,.12);
+      transform: translateY(-3px);
+    }
+    .ex-card .ex-num {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--custom-primary);
+      line-height: 1;
+      margin-bottom: .5rem;
+      opacity: .18;
+    }
+    .ex-card h5 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--custom-dark);
+    }
+
+    /* --- Code blocks --- */
+    .code-block {
+      background: #1d3557;
+      color: #a8dadc;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      line-height: 1.7;
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--custom-radius);
+      overflow-x: auto;
+      margin: 0;
+    }
+    .code-block .comment  { color: #457b9d; font-style: italic; }
+    .code-block .keyword  { color: #e63946; }
+    .code-block .value    { color: #2a9d8f; }
+    .code-block .variable { color: #e9c46a; }
+
+    /* --- Variable table --- */
+    .var-table { width: 100%; border-collapse: separate; border-spacing: 0 .4rem; }
+    .var-table tr td {
+      background: #fff;
+      padding: .6rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      border: 1px solid #e8e8e8;
+    }
+    .var-table tr td:first-child { border-radius: .4rem 0 0 .4rem; color: var(--custom-primary); font-weight: 700; }
+    .var-table tr td:nth-child(2) { color: #888; text-decoration: line-through; }
+    .var-table tr td:last-child { border-radius: 0 .4rem .4rem 0; color: var(--custom-success); font-weight: 600; }
+
+    /* --- Step flow --- */
+    .step-flow { display: flex; flex-direction: column; gap: .75rem; }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: .85rem 1.1rem;
+      background: #fff;
+      border-radius: var(--custom-radius);
+      border-left: 3px solid var(--custom-primary);
+      box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    }
+    .step-num {
+      background: var(--custom-primary);
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .8rem;
+      width: 1.8rem; height: 1.8rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text { font-size: .88rem; color: #444; line-height: 1.5; }
+    .step-text code { background: #f1faee; color: var(--custom-primary); padding: .1rem .35rem; border-radius: .25rem; font-family: var(--font-mono); font-size: .78rem; }
+
+    /* ============================================================
+       BOOTSTRAP COMPONENT OVERRIDES (simulating recompile output)
+       ============================================================ */
+    .btn-primary {
+      background-color: var(--custom-primary) !important;
+      border-color: var(--custom-primary) !important;
+      border-radius: var(--custom-radius) !important;
+    }
+    .btn-primary:hover {
+      background-color: #c1121f !important;
+      border-color: #c1121f !important;
+    }
+    .btn-outline-primary {
+      color: var(--custom-primary) !important;
+      border-color: var(--custom-primary) !important;
+      border-radius: var(--custom-radius) !important;
+    }
+    .btn-outline-primary:hover {
+      background-color: var(--custom-primary) !important;
+      color: #fff !important;
+    }
+    .btn { border-radius: var(--custom-radius) !important; font-family: var(--font-body); font-weight: 500; }
+    .card { border-radius: var(--custom-radius-lg) !important; box-shadow: 0 2px 12px rgba(0,0,0,.07); border: none; }
+    .form-control, .form-select { border-radius: var(--custom-radius) !important; font-family: var(--font-body); }
+    .form-control:focus { border-color: var(--custom-primary) !important; box-shadow: 0 0 0 .2rem rgba(230,57,70,.15) !important; }
+    .badge { border-radius: var(--custom-radius-pill) !important; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .04em; }
+    .bg-primary { background-color: var(--custom-primary) !important; }
+    .text-primary { color: var(--custom-primary) !important; }
+    .alert-primary { background-color: rgba(230,57,70,.08); border-color: rgba(230,57,70,.25); color: var(--custom-dark); }
+    .progress-bar.bg-primary { background-color: var(--custom-primary) !important; }
+    .progress { border-radius: var(--custom-radius-pill) !important; }
+
+    /* --- Demo showcase area --- */
+    .showcase-area {
+      background: #fff;
+      border-radius: var(--custom-radius-lg);
+      padding: 2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    }
+    .showcase-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: .75rem;
+    }
+
+    /* --- File tree --- */
+    .file-tree {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      line-height: 2;
+      background: #1d3557;
+      color: #a8dadc;
+      border-radius: var(--custom-radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .file-tree .dir  { color: #e9c46a; }
+    .file-tree .file { color: #a8dadc; }
+    .file-tree .key  { color: #e63946; }
+    .file-tree .dim  { color: #457b9d; }
+
+    /* --- Divider --- */
+    .section-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, var(--custom-primary), transparent);
+      margin: 3rem 0;
+      border-radius: 1px;
+    }
+
+    /* --- Animate in --- */
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeUp .5s ease both; }
+    .delay-1 { animation-delay: .1s; }
+    .delay-2 { animation-delay: .2s; }
+    .delay-3 { animation-delay: .3s; }
+    .delay-4 { animation-delay: .4s; }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== PAGE HEADER ===================== -->
+  <header class="page-header">
+    <div class="container">
+      <div class="exercise-pill">CHAPTER 19</div>
+      <h1>Bootstrap 5 + Sass<br/>Customization</h1>
+      <p class="mt-2">
+        Set up a Bootstrap project with Sass via npm, then customize
+        primary colors &amp; border-radius through <code style="color:#e9c46a">_variables.scss</code>.
+      </p>
+    </div>
+  </header>
+
+  <main class="container py-5">
+
+    <!-- ===================== EXERCISE 19.1 ===================== -->
+    <section class="animate-in">
+      <div class="section-title">
+        <span>19.1</span> Set Up Bootstrap 5 with Sass using npm
+      </div>
+
+      <div class="row g-4">
+
+        <!-- What & Why -->
+        <div class="col-lg-5">
+          <div class="ex-card h-100">
+            <div class="ex-num">19.1</div>
+            <h5>Project Setup</h5>
+            <p class="text-muted small mt-2 mb-3">
+              Bootstrap's Sass source files let you customize every design token
+              before compilation — colors, spacing, typography, and more — instead
+              of overriding compiled CSS after the fact.
+            </p>
+            <div class="step-flow">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Create a folder and run <code>npm init -y</code> to generate <code>package.json</code></div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Install packages: <code>npm install bootstrap@5 sass</code></div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Create <code>scss/custom.scss</code> — your Sass entry point</div>
+              </div>
+              <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-text">Add compile script to <code>package.json</code> and run <code>npm run sass</code></div>
+              </div>
+              <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-text">Link the output <code>css/custom.css</code> in your HTML</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code -->
+        <div class="col-lg-7">
+          <div class="ex-card h-100">
+            <h5 class="mb-3">📦 package.json — npm scripts</h5>
+            <pre class="code-block"><code><span class="comment">// package.json</span>
+{
+  <span class="variable">"name"</span>: <span class="value">"bootstrap-sass-project"</span>,
+  <span class="variable">"scripts"</span>: {
+    <span class="comment">// one-time compile</span>
+    <span class="variable">"sass"</span>: <span class="value">"sass scss/custom.scss css/custom.css --style=compressed"</span>,
+    <span class="comment">// watch mode (auto-recompile on save)</span>
+    <span class="variable">"sass:watch"</span>: <span class="value">"sass scss/custom.scss css/custom.css --watch"</span>
+  },
+  <span class="variable">"dependencies"</span>: {
+    <span class="variable">"bootstrap"</span>: <span class="value">"^5.3.3"</span>,
+    <span class="variable">"sass"</span>: <span class="value">"^1.77.0"</span>
+  }
+}</code></pre>
+
+            <h5 class="mt-4 mb-3">📄 scss/custom.scss — entry point</h5>
+            <pre class="code-block"><code><span class="comment">// 1. Your overrides (BEFORE Bootstrap)</span>
+<span class="keyword">@import</span> <span class="value">'variables'</span>;
+
+<span class="comment">// 2. Bootstrap required files</span>
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/functions'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/variables'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/variables-dark'</span>;
+
+<span class="comment">// 3. Maps, mixins, utilities</span>
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/maps'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/mixins'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/utilities'</span>;
+
+<span class="comment">// 4. Bootstrap layout & components</span>
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/reboot'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/grid'</span>;
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/buttons'</span>;
+<span class="comment">// ... add only what you need</span>
+<span class="keyword">@import</span> <span class="value">'../node_modules/bootstrap/scss/utilities/api'</span>;
+
+<span class="comment">// 5. Your own custom styles below</span></code></pre>
+
+            <div class="file-tree mt-4">
+<span class="dir">bootstrap-sass-project/</span>
+├── <span class="dir">node_modules/</span>  <span class="dim">← npm install</span>
+├── <span class="dir">scss/</span>
+│   ├── <span class="key">_variables.scss</span>  <span class="dim">← Exercise 19.2</span>
+│   └── <span class="file">custom.scss</span>      <span class="dim">← entry point</span>
+├── <span class="dir">css/</span>
+│   └── <span class="file">custom.css</span>       <span class="dim">← compiled output</span>
+├── <span class="file">index.html</span>           <span class="dim">← link css/custom.css</span>
+└── <span class="file">package.json</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider animate-in delay-1"/>
+
+    <!-- ===================== EXERCISE 19.2 ===================== -->
+    <section class="animate-in delay-2">
+      <div class="section-title">
+        <span>19.2</span> Customize via _variables.scss &amp; Recompile
+      </div>
+
+      <div class="row g-4">
+
+        <!-- _variables.scss source -->
+        <div class="col-lg-6">
+          <div class="ex-card h-100">
+            <div class="ex-num">19.2</div>
+            <h5>scss/_variables.scss</h5>
+            <p class="text-muted small mt-1 mb-3">
+              Bootstrap variables use <code>!default</code> — they only apply
+              if not already defined. Import your overrides <strong>before</strong>
+              Bootstrap and your values win.
+            </p>
+            <pre class="code-block"><code><span class="comment">// ─── Color Overrides ───────────────────</span>
+<span class="variable">$primary</span>:    <span class="value">#e63946</span>;   <span class="comment">// was #0d6efd</span>
+<span class="variable">$secondary</span>: <span class="value">#457b9d</span>;
+<span class="variable">$success</span>:   <span class="value">#2a9d8f</span>;
+<span class="variable">$info</span>:      <span class="value">#e9c46a</span>;
+<span class="variable">$warning</span>:   <span class="value">#f4a261</span>;
+<span class="variable">$danger</span>:    <span class="value">#c1121f</span>;
+<span class="variable">$light</span>:     <span class="value">#f1faee</span>;
+<span class="variable">$dark</span>:      <span class="value">#1d3557</span>;
+
+<span class="comment">// ─── Border Radius Overrides ───────────</span>
+<span class="variable">$border-radius</span>:      <span class="value">0.75rem</span>;  <span class="comment">// was 0.375rem</span>
+<span class="variable">$border-radius-sm</span>:   <span class="value">0.4rem</span>;
+<span class="variable">$border-radius-lg</span>:   <span class="value">1.25rem</span>;
+<span class="variable">$border-radius-pill</span>: <span class="value">50rem</span>;
+
+<span class="comment">// ─── Typography ────────────────────────</span>
+<span class="variable">$font-family-sans-serif</span>: <span class="value">'DM Sans', system-ui</span>;
+<span class="variable">$headings-font-weight</span>:   <span class="value">700</span>;</code></pre>
+
+            <div class="mt-3 p-3 rounded" style="background:#f1faee; border-left: 3px solid var(--custom-success);">
+              <p class="mb-0 small" style="color: #1d3557;">
+                <strong>💡 Key rule:</strong> The <code>!default</code> flag in Bootstrap's
+                variables means "use this value <em>only if nothing else has set it</em>."
+                Import your file first → Bootstrap's defaults are skipped.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- What changed + live demo -->
+        <div class="col-lg-6">
+          <div class="ex-card mb-4">
+            <h5 class="mb-3">Before → After</h5>
+            <table class="var-table">
+              <tr><td>$primary</td><td>#0d6efd</td><td>#e63946 ●</td></tr>
+              <tr><td>$success</td><td>#198754</td><td>#2a9d8f ●</td></tr>
+              <tr><td>$dark</td><td>#212529</td><td>#1d3557 ●</td></tr>
+              <tr><td>$border-radius</td><td>0.375rem</td><td>0.75rem</td></tr>
+              <tr><td>$border-radius-lg</td><td>0.5rem</td><td>1.25rem</td></tr>
+              <tr><td>$border-radius-pill</td><td>50rem</td><td>50rem</td></tr>
+            </table>
+          </div>
+
+          <!-- Live demo of compiled result -->
+          <div class="showcase-area">
+            <div class="showcase-label">Live Result — after recompile</div>
+
+            <!-- Buttons -->
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <button class="btn btn-primary btn-sm">Primary</button>
+              <button class="btn btn-outline-primary btn-sm">Outline</button>
+              <button class="btn btn-sm" style="background:#2a9d8f;color:#fff;border-radius:var(--custom-radius)">Success</button>
+              <button class="btn btn-sm" style="background:#1d3557;color:#fff;border-radius:var(--custom-radius)">Dark</button>
+            </div>
+
+            <!-- Badges -->
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge bg-primary">primary</span>
+              <span class="badge" style="background:#2a9d8f">success</span>
+              <span class="badge" style="background:#457b9d">secondary</span>
+              <span class="badge" style="background:#e9c46a;color:#333">info</span>
+              <span class="badge" style="background:#1d3557">dark</span>
+            </div>
+
+            <!-- Progress bars -->
+            <div class="mb-2">
+              <div class="progress mb-2" style="height:10px">
+                <div class="progress-bar bg-primary" style="width:72%"></div>
+              </div>
+              <div class="progress mb-2" style="height:10px">
+                <div class="progress-bar" style="width:45%;background:#2a9d8f"></div>
+              </div>
+              <div class="progress" style="height:10px">
+                <div class="progress-bar" style="width:88%;background:#e9c46a"></div>
+              </div>
+            </div>
+
+            <!-- Alert -->
+            <div class="alert alert-primary py-2 mb-3 small">
+              <strong>Custom primary!</strong> Color <code>#e63946</code> propagates across all components.
+            </div>
+
+            <!-- Form input -->
+            <input type="text" class="form-control form-control-sm"
+              placeholder="Inputs get custom radius too (0.75rem)…"/>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="section-divider animate-in delay-3"/>
+
+    <!-- ===================== QUICK REFERENCE ===================== -->
+    <section class="animate-in delay-4">
+      <div class="section-title">⚡ Quick Reference</div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="ex-card text-center">
+            <div style="font-size:2.5rem; margin-bottom:.5rem;">📦</div>
+            <h6 style="font-family:var(--font-display);font-weight:800">Install</h6>
+            <pre class="code-block text-start mt-2" style="font-size:.72rem"><code>npm install bootstrap@5 sass</code></pre>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="ex-card text-center">
+            <div style="font-size:2.5rem; margin-bottom:.5rem;">✏️</div>
+            <h6 style="font-family:var(--font-display);font-weight:800">Customize</h6>
+            <pre class="code-block text-start mt-2" style="font-size:.72rem"><code><span class="comment">// _variables.scss</span>
+<span class="variable">$primary</span>: <span class="value">#e63946</span>;
+<span class="variable">$border-radius</span>: <span class="value">0.75rem</span>;</code></pre>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="ex-card text-center">
+            <div style="font-size:2.5rem; margin-bottom:.5rem;">🔨</div>
+            <h6 style="font-family:var(--font-display);font-weight:800">Compile</h6>
+            <pre class="code-block text-start mt-2" style="font-size:.72rem"><code>npm run sass
+<span class="comment"># or watch mode:</span>
+npm run sass:watch</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="text-center py-4 mt-3" style="border-top:2px solid #e8e8e8; font-family: var(--font-mono); font-size:.75rem; color:#aaa;">
+    Exercise 19.1 &amp; 19.2 &nbsp;·&nbsp; Bootstrap 5 + Sass Customization
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

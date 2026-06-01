@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 12 – Spacing Utilities</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    .spacing-box { background:#0d6efd22; border:2px dashed #0d6efd; border-radius:6px; text-align:center; font-size:.85rem; font-weight:600; color:#0d6efd; }
+    .inner-box   { background:#0d6efd; color:#fff; border-radius:4px; padding:8px; }
+  </style>
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <h1 class="display-4 fw-bold text-primary">Exercise 12: Spacing Utilities</h1>
+    <hr>
+
+    <!-- Exercise 12.1 -->
+    <section class="mb-5">
+      <h2 class="h4 text-secondary">Exercise 12.1 – Margin &amp; Padding Utilities</h2>
+
+      <div class="alert alert-info mb-4">
+        <strong>Syntax:</strong> <code>{property}{sides}-{size}</code><br>
+        <strong>Property:</strong> <code>m</code> = margin, <code>p</code> = padding<br>
+        <strong>Sides:</strong> t/b/s/e/x/y (top/bottom/start/end/x-axis/y-axis)<br>
+        <strong>Sizes:</strong> 0, 1 (0.25rem), 2 (0.5rem), 3 (1rem), 4 (1.5rem), 5 (3rem), auto
+      </div>
+
+      <h6>Margin Examples</h6>
+      <div class="bg-warning p-2 rounded mb-4">
+        <div class="spacing-box m-0 mb-2"><div class="inner-box">m-0 (no margin)</div></div>
+        <div class="spacing-box m-1 mb-2"><div class="inner-box">m-1 (0.25rem all sides)</div></div>
+        <div class="spacing-box m-3 mb-2"><div class="inner-box">m-3 (1rem all sides)</div></div>
+        <div class="spacing-box mt-4 mb-2"><div class="inner-box">mt-4 (top margin 1.5rem)</div></div>
+        <div class="spacing-box mx-5"><div class="inner-box">mx-5 (horizontal margin 3rem)</div></div>
+      </div>
+
+      <h6>Padding Examples</h6>
+      <div class="d-flex flex-wrap gap-3 mb-4">
+        <div class="spacing-box p-0"><div class="inner-box">p-0</div></div>
+        <div class="spacing-box p-2"><div class="inner-box">p-2</div></div>
+        <div class="spacing-box p-4"><div class="inner-box">p-4</div></div>
+        <div class="spacing-box py-5"><div class="inner-box">py-5</div></div>
+        <div class="spacing-box px-5"><div class="inner-box">px-5</div></div>
+        <div class="spacing-box pt-3 pb-1 ps-4"><div class="inner-box">pt-3 pb-1 ps-4</div></div>
+      </div>
+
+      <pre class="bg-dark text-white p-3 rounded"><code>m-3       → margin: 1rem on all sides
+mt-4      → margin-top: 1.5rem
+mx-auto   → margin left &amp; right: auto (centers block element)
+p-2       → padding: 0.5rem on all sides
+py-5      → padding top &amp; bottom: 3rem
+ps-3      → padding-left: 1rem (start)</code></pre>
+    </section>
+
+    <!-- Exercise 12.2: Pricing Section -->
+    <section class="mb-5">
+      <h2 class="h4 text-secondary">Exercise 12.2 – Pricing Section with Spacing</h2>
+
+      <div class="py-5">
+        <h2 class="text-center fw-bold mb-2">Simple, Transparent Pricing</h2>
+        <p class="text-center text-muted mb-5">Choose the plan that works for you.</p>
+
+        <div class="row justify-content-center g-4">
+          <!-- Free -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">Free</h5>
+                <p class="text-muted mb-4">For individuals getting started.</p>
+                <p class="display-6 fw-bold mb-4">₹0<span class="fs-6 text-muted fw-normal">/mo</span></p>
+                <ul class="list-unstyled mb-4">
+                  <li class="mb-2">✅ 5 Projects</li>
+                  <li class="mb-2">✅ 1 GB Storage</li>
+                  <li class="mb-2">✅ Community Support</li>
+                  <li class="mb-2 text-muted">❌ Custom Domain</li>
+                  <li class="mb-2 text-muted">❌ Analytics</li>
+                </ul>
+                <button class="btn btn-outline-primary w-100 mt-auto">Get Started</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pro (featured) -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow border-primary border-2">
+              <div class="card-header bg-primary text-white text-center py-3">
+                <span class="badge bg-warning text-dark me-2">Most Popular</span>
+              </div>
+              <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">Pro</h5>
+                <p class="text-muted mb-4">For professionals &amp; teams.</p>
+                <p class="display-6 fw-bold mb-4">₹999<span class="fs-6 text-muted fw-normal">/mo</span></p>
+                <ul class="list-unstyled mb-4">
+                  <li class="mb-2">✅ Unlimited Projects</li>
+                  <li class="mb-2">✅ 50 GB Storage</li>
+                  <li class="mb-2">✅ Priority Support</li>
+                  <li class="mb-2">✅ Custom Domain</li>
+                  <li class="mb-2">✅ Advanced Analytics</li>
+                </ul>
+                <button class="btn btn-primary w-100">Upgrade to Pro</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">Enterprise</h5>
+                <p class="text-muted mb-4">For large organizations.</p>
+                <p class="display-6 fw-bold mb-4">Custom<span class="fs-6 text-muted fw-normal"> pricing</span></p>
+                <ul class="list-unstyled mb-4">
+                  <li class="mb-2">✅ Everything in Pro</li>
+                  <li class="mb-2">✅ Unlimited Storage</li>
+                  <li class="mb-2">✅ Dedicated Manager</li>
+                  <li class="mb-2">✅ SLA Guarantee</li>
+                  <li class="mb-2">✅ On-premise Option</li>
+                </ul>
+                <button class="btn btn-outline-dark w-100">Contact Sales</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-center text-muted mt-5 small">All plans include a 14-day free trial. No credit card required.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
